@@ -141,6 +141,13 @@ This means you can scale down to zero when idle, which means you can use larger 
 
 Metrics are collected with a Lambda function, polling every minute.
 
+## Instance Agent Modes
+
+You have the option of running instances in your Autoscaling group in one of two "configuration modes": `stay-alive` and `single-use`.
+
+* `stay-alive`: When you run an instance in the default `stay-alive` mode, the `buildkite-agent` service will continue running after it has completed a build. This is how the stack has historically operated.
+* `single-use`: This will configure your `buildkite-agent` service to stop itself after it has completed a job, mark the instance as unhealthy, and power itself down. This mode is useful if you need to run highly destructive steps that are difficult or impossible to clean up after. If you are using this mode, it's recommended (though not enforced) that you set your `AgentsPerInstance` value to 1.
+
 ## Docker Registry Support
 
 If you want to push or pull from registries such as [Docker Hub](https://hub.docker.com/) or [Quay](https://quay.io/) you can use the `environment` hook in your secrets bucket to export the following environment variables:

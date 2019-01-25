@@ -138,6 +138,9 @@ if ! docker ps ; then
   exit 1
 fi
 
+# Based on the instance agent mode, move the correct systemd configuration into place
+mv "/etc/systemd/system/buildkite-agent@.service.${BUILDKITE_INSTANCE_AGENT_MODE:-stay-alive}" /etc/systemd/system/buildkite-agent@.service
+
 for i in $(seq 1 "${BUILDKITE_AGENTS_PER_INSTANCE}"); do
   systemctl enable "buildkite-agent@${i}"
   systemctl start "buildkite-agent@${i}"
