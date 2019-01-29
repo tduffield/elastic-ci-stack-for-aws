@@ -70,6 +70,10 @@ if [[ "${BUILDKITE_AGENT_RELEASE}" == "edge" ]] ; then
 	buildkite-agent-edge --version
 fi
 
+if [[ "${BUILDKITE_FULL_SUDO_PERMISSIONS:-false}" == "true" ]] ; then
+  echo "buildkite-agent ALL=NOPASSWD: ALL" >> /etc/sudoers.d/buildkite-agent
+fi
+
 # Choose the right agent binary
 ln -s "/usr/bin/buildkite-agent-${BUILDKITE_AGENT_RELEASE}" /usr/bin/buildkite-agent
 
